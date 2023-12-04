@@ -152,14 +152,13 @@ jobs:
                 echo '```' >> $env:GITHUB_STEP_SUMMARY  
               exit(0)
           }
-          if (${{steps.detect_lang.outputs.lang}} -eq [String])
+          if (${{steps.detect_lang.outputs.lang}} -eq 3)
           {
               $version = $(java --version) -join "`n"
               echo "Detect ✅: Java">> $env:GITHUB_STEP_SUMMARY
                 echo '```' >> $env:GITHUB_STEP_SUMMARY
                 echo "$($version)">> $env:GITHUB_STEP_SUMMARY
-                echo '```' >> $env:GITHUB_STEP_SUMMARY
-                echo "lang=3" >> $env:GITHUB_OUTPUT      
+                echo '```' >> $env:GITHUB_STEP_SUMMARY 
               exit(0)
           }
 
@@ -227,7 +226,7 @@ jobs:
           
           if (${{ steps.detect_lang.outputs.lang }} -eq 3) 
           { java -classpath ../ Main 2>stderr.log 1>stdout.log }
-          elseif (${{ steps.detect_lang.outputs.lang }})  
+          elseif (${{ steps.detect_lang.outputs.lang }} -ne 0)  
           { & ./${{env.EXE}} 2>stderr.log 1>stdout.log }
           else
           { python ../main.py 2>stderr.log 1>stdout.log  }
